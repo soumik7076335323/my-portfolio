@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Builds
+client/build/
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Environment variables — never commit real secrets
+.env
+.env.local
+.env.production
+client/.env
+server/.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
