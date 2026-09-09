@@ -71,7 +71,7 @@ export default function Navbar() {
             aria-label="Home"
             onClick={() => setOpen(false)}
           >
-            Soumik<span className="dot">.</span>Porfolio
+            Soumik<span className="dot">.</span>Portfolio
           </Link>
 
           <nav aria-label="Primary">
