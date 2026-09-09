@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
-import { usePortfolio } from '../context/PortfolioContext';
-import { resolveUrl } from '../services/api';
-import { SunIcon, MoonIcon, DownloadIcon } from './Icons';
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext";
+import { usePortfolio } from "../context/PortfolioContext";
+import { resolveUrl } from "../services/api";
+import { SunIcon, MoonIcon, DownloadIcon } from "./Icons";
 
 const LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Contact', href: '#contact' },
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#projects" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState('#home');
+  const [active, setActive] = useState("#home");
   const { theme, toggleTheme } = useTheme();
   const { profile, loading } = usePortfolio();
   const location = useLocation();
@@ -25,8 +25,8 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // Track the section currently in view for nav highlighting
@@ -38,7 +38,7 @@ export default function Navbar() {
           if (e.isIntersecting) setActive(`#${e.target.id}`);
         });
       },
-      { rootMargin: '-38% 0px -55% 0px' }
+      { rootMargin: "-38% 0px -55% 0px" },
     );
     ids.forEach((id) => {
       const el = document.getElementById(id);
@@ -52,21 +52,26 @@ export default function Navbar() {
     setOpen(false);
   }, [location.pathname]);
 
-  const resumeHref = profile?.resumeUrl ? resolveUrl(profile.resumeUrl) : '#';
+  const resumeHref = profile?.resumeUrl ? resolveUrl(profile.resumeUrl) : "#";
 
   const goTo = (href) => (e) => {
     e.preventDefault();
     setOpen(false);
     const el = document.getElementById(href.slice(1));
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <>
-      <header className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+      <header className={`navbar ${scrolled ? "scrolled" : ""}`}>
         <div className="nav-inner">
-          <Link to="/" className="nav-logo" aria-label="Home" onClick={() => setOpen(false)}>
-            soumik<span className="dot">.</span>dev
+          <Link
+            to="/"
+            className="nav-logo"
+            aria-label="Home"
+            onClick={() => setOpen(false)}
+          >
+            Soumik<span className="dot">.</span>Porfolio
           </Link>
 
           <nav aria-label="Primary">
@@ -76,8 +81,8 @@ export default function Navbar() {
                   <a
                     href={l.href}
                     onClick={goTo(l.href)}
-                    className={active === l.href ? 'active' : ''}
-                    aria-current={active === l.href ? 'true' : undefined}
+                    className={active === l.href ? "active" : ""}
+                    aria-current={active === l.href ? "true" : undefined}
                   >
                     {l.label}
                   </a>
@@ -91,24 +96,35 @@ export default function Navbar() {
               type="button"
               className="theme-toggle"
               onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label={
+                theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"
+              }
               title="Toggle theme"
             >
-              {theme === 'dark' ? <SunIcon size={17} /> : <MoonIcon size={17} />}
+              {theme === "dark" ? (
+                <SunIcon size={17} />
+              ) : (
+                <MoonIcon size={17} />
+              )}
             </button>
-            {resumeHref !== '#' ? (
+            {resumeHref !== "#" ? (
               <a className="btn btn-primary btn-sm" href={resumeHref} download>
                 <DownloadIcon size={15} /> Resume
               </a>
             ) : (
-              <span className="btn btn-primary btn-sm" style={{ opacity: 0.5, pointerEvents: 'none' }}>
+              <span
+                className="btn btn-primary btn-sm"
+                style={{ opacity: 0.5, pointerEvents: "none" }}
+              >
                 <DownloadIcon size={15} /> Resume
               </span>
             )}
             <button
               type="button"
-              className={`nav-burger ${open ? 'open' : ''}`}
-              aria-label={open ? 'Close menu' : 'Open menu'}
+              className={`nav-burger ${open ? "open" : ""}`}
+              aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               onClick={() => setOpen((o) => !o)}
             >
@@ -120,7 +136,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      <div className={`mobile-menu ${open ? 'open' : ''}`} aria-hidden={!open}>
+      <div className={`mobile-menu ${open ? "open" : ""}`} aria-hidden={!open}>
         <ul>
           {LINKS.map((l) => (
             <li key={l.href}>
@@ -132,11 +148,15 @@ export default function Navbar() {
           <li>
             <a
               className="resume-link"
-              href={resumeHref !== '#' ? resumeHref : undefined}
+              href={resumeHref !== "#" ? resumeHref : undefined}
               download
               onClick={() => setOpen(false)}
               tabIndex={open ? 0 : -1}
-              style={resumeHref === '#' ? { opacity: 0.5, pointerEvents: 'none' } : undefined}
+              style={
+                resumeHref === "#"
+                  ? { opacity: 0.5, pointerEvents: "none" }
+                  : undefined
+              }
             >
               ↓ Download Resume
             </a>
